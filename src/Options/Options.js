@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Option from '../Option/option'
+import Features from '../Features/Features'
 
 class Options extends Component{
     
@@ -7,7 +7,7 @@ class Options extends Component{
     {   
         const features = Object.keys(this.props.features).map(myKey=>
             
-            <Option
+            <Features
                 features={this.props.features}
                 selected={this.props.itemsSelected}
                 Key={myKey}
