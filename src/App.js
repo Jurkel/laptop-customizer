@@ -1,26 +1,108 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Title from './title-component/Title';
+import Options from './options-component/Options';
+import Summary from './summary-component/Summary';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      selected: {
+        Processor: {
+            name: '17th Generation Intel Core HB (7 Core with donut spare)',
+            cost: 700
+          },
+        "Operating System": {
+            name: 'Ubuntu Linux 16.04',
+            cost: 200
+          },
+        "Video Card":{
+            name: 'Toyota Corolla 1.5v',
+            cost: 1150.98
+          },
+        "Display": {
+            name: '15.6" UHD (3840 x 2160) 60Hz Bright Lights and Knobs',
+            cost: 1500
+          }
+      }
+    }
+  }
+
+  updateFeature = (category, item) =>{
+    
+    this.setState({
+      selected: {
+        ...this.state.selected,
+        [category]: item,
+      }
+    });
+  }
+
+  updateSummary = (selectedItems) =>{
+    Object.keys(selectedItems).map(myKey=>
+      <div className="summary__option" key= {myKey}>
+        <div className="summary__option__label"> {myKey}  </div>
+        <div className="summary__option__value"> {selectedItems[myKey].name} </div>
+        <div className="summary__option__cost">
+          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
+                      .format(selectedItems[myKey].cost) }
+        </div>
+      </div>)
+  }
+  updateTotal = (selectedItems) =>{
+    if(!selectedItems){
+      selectedItems=this.state.selected
+    }
+    Object.keys(selectedItems)
+          .reduce((acc, curr) => acc + selectedItems[curr].cost, 0); 
+  }
+  updateSelectedFeatures = (features, itemsSelected) =>{
+    Object.keys(features)
+          .map(myKey => {
+            const options = features[myKey].map((item, index) => {
+              const selectedClass = item.name === itemsSelected[myKey].name ? 'feature__selected' : '';
+              const featureClass = 'feature__option ' + selectedClass;
+              return <li key= {index} className="feature__item">
+                <div className={featureClass}
+                  
+                  onClick={e => this.props.handleUpdateSummary(myKey, item)}>
+                    { item.name }
+                    ({ new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
+                      .format(item.cost) })
+                </div>
+              </li>
+            });
+
+            return <div className="feature" key={myKey}>
+              <div className="feature__name">{myKey}</div>
+              <ul className="feature__list">
+                { options }
+              </ul>
+            </div>
+          });
+  }
+  render() {
+    return (
+      // title component
+      <div className="App">
+        <Title />
+        <main>
+        <Options 
+          itemsSelected = {this.state.selected}
+          features = {this.props.features}
+          handleUpdateSelectedFeatures = { (features, itemsSelected)=>this.updateSelectedFeatures(this.props.features, this.state.selected)}
+          handleUpdateSummary ={this.updateFeature}
+        />
+        <Summary
+         itemsSelected = {this.state.selected}
+         features = {this.props.features}
+        />
+        </main>
+        
+      </div>
+    );
+  }
 }
 
-export default App;
+export default App;  
