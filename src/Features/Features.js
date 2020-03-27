@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Component } from 'react';
 
 class Option extends Component{
@@ -7,7 +6,7 @@ class Option extends Component{
 
     render()
 
-    {   const features = this.props.features
+    {
        
         const selected = this.props.selected
 
