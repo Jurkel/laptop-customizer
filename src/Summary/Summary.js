@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SummaryItem from '../SummaryItem/summary-item'
+import SummaryItem from '../SummaryItem/SummaryItem'
 
 class Summary extends Component{
     
@@ -21,7 +21,6 @@ class Summary extends Component{
     ; 
          return(
             <section className="main__summary">
-                <h3>NEW GREENLEAF 2018</h3>
                 
                 {selected}
                 

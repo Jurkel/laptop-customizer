@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Title from './title-component/Title';
-import Options from './options-component/Options';
-import Summary from './summary-component/Summary';
+import Title from './Title/Title';
+import Options from './Options/Options';
+import Summary from './Summary/Summary';
 
 class App extends Component {
   constructor(props){
